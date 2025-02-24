@@ -1,11 +1,20 @@
-import pizzas from './assets/pizza.json';
+import React from 'react';
 import Categories from './components/Categogies/Categories';
 import Header from './components/Header/Header';
 import PizzaBlock from './components/PizzaBlock/PizzaBlock';
+import { IPizzaBlockProps } from './components/PizzaBlock/PizzaBlock.props';
 import Sort from './components/Sort/Sort';
 import './scss/app.scss';
 
 function App() {
+	const [pizzas, setPizzas] = React.useState<IPizzaBlockProps[]>([]);
+
+	React.useEffect(() => {
+		fetch('https://67bc771bed4861e07b3aa6b3.mockapi.io/items')
+			.then(res => res.json())
+			.then(json => setPizzas(json));
+	}, []);
+
 	return (
 		<div>
 			<div className='wrapper'>
@@ -22,10 +31,10 @@ function App() {
 								<PizzaBlock
 									key={pizza.id}
 									title={pizza.title}
-									img={pizza.imageUrl}
+									imageUrl={pizza.imageUrl}
+									price={pizza.price}
 									sizes={pizza.sizes}
 									types={pizza.types}
-									price={pizza.price}
 								/>
 							))}
 						</div>

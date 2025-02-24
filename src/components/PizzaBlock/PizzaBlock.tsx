@@ -3,7 +3,7 @@ import React from 'react';
 import { IPizzaBlockProps } from './PizzaBlock.props';
 
 const PizzaBlock: React.FC<IPizzaBlockProps> = props => {
-	const { title, img, sizes, types, price } = props;
+	const { title, imageUrl, sizes, types, price } = props;
 
 	const typeNames: string[] = ['тонкое', 'традиционное'];
 
@@ -12,7 +12,11 @@ const PizzaBlock: React.FC<IPizzaBlockProps> = props => {
 
 	return (
 		<div className='pizza-block'>
-			<img className='pizza-block__image' src={img} alt='Фотография пиццы' />
+			<img
+				className='pizza-block__image'
+				src={imageUrl}
+				alt='Фотография пиццы'
+			/>
 			<h4 className='pizza-block__title'>{title}</h4>
 			<div className='pizza-block__selector'>
 				<ul>

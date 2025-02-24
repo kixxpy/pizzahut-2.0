@@ -1,7 +1,10 @@
 export interface IPizzaBlockProps {
+	id?: number;
 	title: string;
-	img: string;
+	imageUrl: string;
 	sizes: number[];
 	types: number[];
 	price: number;
+	category?: number;
+	rating?: number;
 }
