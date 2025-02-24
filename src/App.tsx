@@ -1,9 +1,9 @@
-import pizzas from './assets/pizza.json'
-import Categories from './components/Categogies/Categories'
-import Header from './components/Header/Header'
-import PizzaBlock from './components/PizzaBlock/PizzaBlock'
-import Sort from './components/Sort/Sort'
-import './scss/app.scss'
+import pizzas from './assets/pizza.json';
+import Categories from './components/Categogies/Categories';
+import Header from './components/Header/Header';
+import PizzaBlock from './components/PizzaBlock/PizzaBlock';
+import Sort from './components/Sort/Sort';
+import './scss/app.scss';
 
 function App() {
 	return (
@@ -20,6 +20,7 @@ function App() {
 						<div className='content__items'>
 							{pizzas.map(pizza => (
 								<PizzaBlock
+									key={pizza.id}
 									title={pizza.title}
 									img={pizza.imageUrl}
 									sizes={pizza.sizes}

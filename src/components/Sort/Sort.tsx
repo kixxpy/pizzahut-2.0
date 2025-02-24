@@ -1,6 +1,24 @@
 // import styles from "./Sort.module.css"
+import React from 'react';
+import { SortProperty } from './Sort.props';
 
 const Sort: React.FC = () => {
+	const sortItems: SortProperty[] = [
+		SortProperty.POPULARITY,
+		SortProperty.PRICE,
+		SortProperty.ALPHABET,
+	];
+
+	const [open, setOpen] = React.useState<boolean>(false);
+	const [activeItem, setActiveItem] = React.useState<number>(0);
+
+	const togleActiveItem = (index: number): void => {
+		setActiveItem(index);
+		setOpen(false);
+	};
+
+	const selectedItem: SortProperty = sortItems[activeItem];
+
 	return (
 		<div className='sort'>
 			<div className='sort__label'>
@@ -17,15 +35,23 @@ const Sort: React.FC = () => {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span>популярности</span>
+				<span onClick={() => setOpen(!open)}>{selectedItem}</span>
 			</div>
-			<div className='sort__popup'>
-				<ul>
-					<li className='active'>популярности</li>
-					<li>цене</li>
-					<li>алфавиту</li>
-				</ul>
-			</div>
+			{open && (
+				<div className='sort__popup'>
+					<ul>
+						{sortItems.map((item, index) => (
+							<li
+								key={index}
+								className={activeItem === index ? 'active' : ''}
+								onClick={() => togleActiveItem(index)}
+							>
+								{item}
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
 		</div>
 	);
 };
