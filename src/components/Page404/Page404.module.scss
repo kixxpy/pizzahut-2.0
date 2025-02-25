@@ -1,0 +1,36 @@
+.root {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 50px;
+	min-height: 350px;
+	h1 {
+		font-size: 42px;
+		font-weight: 700;
+		span {
+			color: #c8102e;
+		}
+	}
+	p {
+		font-size: 18px;
+		font-weight: 400;
+		text-align: center;
+		color: rgb(119, 119, 119);
+	}
+	button {
+		width: 210px;
+		height: 46px;
+		background: #000;
+		border-radius: 30px;
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 19px;
+		color: rgb(255, 255, 255);
+		cursor: pointer;
+		border: none;
+	}
+	button:hover {
+		background: rgb(27, 26, 26);
+	}
+}
