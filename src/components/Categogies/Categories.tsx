@@ -1,9 +1,10 @@
 // import styles from "./Categories.module.css
 import React from 'react';
+import { ICategoryProps } from './Categories.props';
 
-const Categories: React.FC = () => {
-	const [activeIndex, setActiveIndex] = React.useState<number>(0);
-	const arrPizzaName = [
+const Categories: React.FC<ICategoryProps> = props => {
+	const { value, onClickCategory } = props;
+	const arrPizzaName: string[] = [
 		'Все',
 		'Мясные',
 		'Вегетарианская',
@@ -12,18 +13,14 @@ const Categories: React.FC = () => {
 		'Закрытые',
 	];
 
-	const handleCategory = (index: number) => {
-		setActiveIndex(index);
-	};
-
 	return (
 		<div className='categories'>
 			<ul>
 				{arrPizzaName.map((name, index) => (
 					<li
 						key={index}
-						onClick={() => handleCategory(index)}
-						className={activeIndex === index ? 'active' : ''}
+						onClick={() => onClickCategory(index)}
+						className={value === index ? 'active' : ''}
 					>
 						{name}
 					</li>

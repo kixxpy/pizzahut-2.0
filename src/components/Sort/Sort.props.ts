@@ -3,3 +3,7 @@ export const enum SortProperty {
 	PRICE = 'цене',
 	ALPHABET = 'алфавиту',
 }
+export interface ISortProps {
+	activeItem: number;
+	onClickActiveItem: (i: number) => void;
+}

@@ -1,8 +1,10 @@
 // import styles from "./Sort.module.css"
 import React from 'react';
-import { SortProperty } from './Sort.props';
+import { ISortProps, SortProperty } from './Sort.props';
 
-const Sort: React.FC = () => {
+const Sort: React.FC<ISortProps> = props => {
+	const { activeItem, onClickActiveItem } = props;
+
 	const sortItems: SortProperty[] = [
 		SortProperty.POPULARITY,
 		SortProperty.PRICE,
@@ -10,10 +12,10 @@ const Sort: React.FC = () => {
 	];
 
 	const [open, setOpen] = React.useState<boolean>(false);
-	const [activeItem, setActiveItem] = React.useState<number>(0);
+	// const [activeItem, setActiveItem] = React.useState<number>(0);
 
 	const togleActiveItem = (index: number): void => {
-		setActiveItem(index);
+		onClickActiveItem(index);
 		setOpen(false);
 	};
 
