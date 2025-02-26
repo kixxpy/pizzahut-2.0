@@ -19,6 +19,8 @@
 		color: rgb(119, 119, 119);
 	}
 	button {
+		align-items: center;
+		text-align: center;
 		width: 210px;
 		height: 46px;
 		background: #000;
@@ -29,6 +31,7 @@
 		color: rgb(255, 255, 255);
 		cursor: pointer;
 		border: none;
+		padding: 15px;
 	}
 	button:hover {
 		background: rgb(27, 26, 26);
