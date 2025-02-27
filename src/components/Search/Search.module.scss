@@ -1,0 +1,36 @@
+.search {
+	width: 100%;
+	max-width: 350px;
+	padding: 15px;
+	height: 40px;
+	background: #fff;
+	border-radius: 10px;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	gap: 15px;
+	border: 1px solid #f3f3f3;
+	.input {
+		width: 90%;
+		font-size: 16px;
+		color: #4b4b4b;
+		font-weight: 400;
+		border: none;
+
+		&::placeholder {
+			color: #4b4b4b;
+			font-weight: 400;
+			font-size: 16px;
+		}
+	}
+	button {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		opacity: 0.8;
+		transition: all 0.2s ease-in-out;
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

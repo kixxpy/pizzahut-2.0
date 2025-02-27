@@ -12,7 +12,6 @@ const Sort: React.FC<ISortProps> = props => {
 	];
 
 	const [open, setOpen] = React.useState<boolean>(false);
-	// const [activeItem, setActiveItem] = React.useState<number>(0);
 
 	const togleActiveItem = (index: number): void => {
 		onClickActiveItem(index);

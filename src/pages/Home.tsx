@@ -7,7 +7,12 @@ import { IPizzaBlockProps } from '../components/PizzaBlock/PizzaBlock.props';
 import Skeleton from '../components/Skeleton/Skeleton';
 import Sort from '../components/Sort/Sort';
 
-const Home: React.FC = () => {
+interface IHomeProps {
+	searchValue: string;
+}
+
+const Home: React.FC<IHomeProps> = props => {
+	const { searchValue } = props;
 	const [pizzas, setPizzas] = React.useState<IPizzaBlockProps[]>([]);
 	const [isLoading, setIsLoading] = React.useState<boolean>(true);
 	const [categoryId, setCategoryId] = React.useState<number>(0);
@@ -33,6 +38,7 @@ const Home: React.FC = () => {
 			.then(res => res.json())
 			.then(json => setPizzas(json))
 			.finally(() => setIsLoading(false));
+		window.scrollTo(0, 0);
 	}, [categoryId, activeItem, PRICE, RATING, TITLE]);
 	return (
 		<>
@@ -47,16 +53,20 @@ const Home: React.FC = () => {
 			<div className='content__items'>
 				{isLoading
 					? fakeArr.map((_, index) => <Skeleton key={index} />)
-					: pizzas.map(pizza => (
-							<PizzaBlock
-								key={pizza.id}
-								title={pizza.title}
-								imageUrl={pizza.imageUrl}
-								price={pizza.price}
-								sizes={pizza.sizes}
-								types={pizza.types}
-							/>
-					  ))}
+					: pizzas
+							.filter(pizza =>
+								pizza.title.toLowerCase().includes(searchValue.toLowerCase())
+							)
+							.map(pizza => (
+								<PizzaBlock
+									key={pizza.id}
+									title={pizza.title}
+									imageUrl={pizza.imageUrl}
+									price={pizza.price}
+									sizes={pizza.sizes}
+									types={pizza.types}
+								/>
+							))}
 			</div>
 		</>
 	);
