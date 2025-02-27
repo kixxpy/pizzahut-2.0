@@ -19,7 +19,7 @@ const Header: React.FC<IHeaderProps> = props => {
 						</div>
 					</div>
 				</Link>
-				<div>test</div>
+				<div>test2</div>
 				<Search searchValue={searchValue} setSearchValue={setSearchValue} />
 				<div className='header__cart'>
 					<Link to={'/cart'} className='button button--cart'>
