@@ -1,8 +1,16 @@
+import React from 'react';
+import { SearchContext } from '../../App';
 import styles from './Search.module.scss';
-import { ISearchProps } from './Search.props';
 
-const Search: React.FC<ISearchProps> = props => {
-	const { searchValue, setSearchValue } = props;
+const Search: React.FC = () => {
+	const context = React.useContext(SearchContext);
+
+	if (!context) {
+		console.error('useSearch must be used within a SearchProvider');
+		return null;
+	}
+	const { searchValue, setSearchValue } = context;
+
 	return (
 		<div className={styles['search']}>
 			<svg
