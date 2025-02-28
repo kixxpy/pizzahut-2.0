@@ -1,10 +1,15 @@
 // import styles from "./Sort.module.css"
 import React from 'react';
-import { ISortProps, SortProperty } from './Sort.props';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveItem } from '../../redux/slices/filterSlice';
+import { RootState } from '../../redux/store';
+import { SortProperty } from './Sort.props';
 
-const Sort: React.FC<ISortProps> = props => {
-	const { activeItem, onClickActiveItem } = props;
-
+const Sort: React.FC = () => {
+	const actionItem = useSelector(
+		(state: RootState) => state.filterSlice.activeItem
+	);
+	const dispatch = useDispatch();
 	const sortItems: SortProperty[] = [
 		SortProperty.POPULARITY,
 		SortProperty.PRICE,
@@ -14,11 +19,11 @@ const Sort: React.FC<ISortProps> = props => {
 	const [open, setOpen] = React.useState<boolean>(false);
 
 	const togleActiveItem = (index: number): void => {
-		onClickActiveItem(index);
+		dispatch(setActiveItem(index));
 		setOpen(false);
 	};
 
-	const selectedItem: SortProperty = sortItems[activeItem];
+	const selectedItem: SortProperty = sortItems[actionItem];
 
 	return (
 		<div className='sort'>
@@ -44,7 +49,7 @@ const Sort: React.FC<ISortProps> = props => {
 						{sortItems.map((item, index) => (
 							<li
 								key={index}
-								className={activeItem === index ? 'active' : ''}
+								className={actionItem === index ? 'active' : ''}
 								onClick={() => togleActiveItem(index)}
 							>
 								{item}

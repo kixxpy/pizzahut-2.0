@@ -1,22 +1,32 @@
 // import styles from "./Home.module.css"
 
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Categories from '../components/Categogies/Categories';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import { IPizzaBlockProps } from '../components/PizzaBlock/PizzaBlock.props';
 import Skeleton from '../components/Skeleton/Skeleton';
 import Sort from '../components/Sort/Sort';
+import { setCategoryId } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
 interface IHomeProps {
 	searchValue: string;
 }
 
 const Home: React.FC<IHomeProps> = props => {
+	const categoryId = useSelector(
+		(state: RootState) => state.filterSlice.categoryId
+	);
+	const activeItem = useSelector(
+		(state: RootState) => state.filterSlice.activeItem
+	);
+	const dispatch = useDispatch();
+
 	const { searchValue } = props;
 	const [pizzas, setPizzas] = React.useState<IPizzaBlockProps[]>([]);
 	const [isLoading, setIsLoading] = React.useState<boolean>(true);
-	const [categoryId, setCategoryId] = React.useState<number>(0);
-	const [activeItem, setActiveItem] = React.useState<number>(0);
+	// const [activeItem, setActiveItem] = React.useState<number>(0);
 
 	const RATING: string | null = activeItem === 0 ? 'rating' : null;
 	const PRICE: string | null = activeItem === 1 ? 'price' : null;
@@ -38,16 +48,15 @@ const Home: React.FC<IHomeProps> = props => {
 			.then(res => res.json())
 			.then(json => setPizzas(json))
 			.finally(() => setIsLoading(false));
-		window.scrollTo(0, 0);
 	}, [categoryId, activeItem, PRICE, RATING, TITLE]);
 	return (
 		<>
 			<div className='content__top'>
 				<Categories
 					value={categoryId}
-					onClickCategory={i => setCategoryId(i)}
+					onClickCategory={i => dispatch(setCategoryId(i))}
 				/>
-				<Sort activeItem={activeItem} onClickActiveItem={setActiveItem} />
+				<Sort />
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
 			<div className='content__items'>
