@@ -4,6 +4,12 @@ import styles from './Search.module.scss';
 
 const Search: React.FC = () => {
 	const context = React.useContext(SearchContext);
+	const inputRef = React.useRef<HTMLInputElement>(null);
+
+	const onClickClear = () => {
+		setSearchValue('');
+		inputRef.current?.focus();
+	};
 
 	if (!context) {
 		console.error('useSearch must be used within a SearchProvider');
@@ -38,6 +44,7 @@ const Search: React.FC = () => {
 				</g>
 			</svg>
 			<input
+				ref={inputRef}
 				value={searchValue}
 				onChange={e => setSearchValue(e.target.value)}
 				className={styles['input']}
@@ -45,7 +52,7 @@ const Search: React.FC = () => {
 				placeholder='Поиск пицц...'
 			/>
 			{searchValue && (
-				<button onClick={() => setSearchValue('')}>
+				<button onClick={onClickClear}>
 					<svg
 						width='30px'
 						height='30px'
