@@ -1,5 +1,6 @@
 // import styles from "./Home.module.css"
 
+import axios from 'axios';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Categories from '../components/Categogies/Categories';
@@ -33,20 +34,17 @@ const Home: React.FC<IHomeProps> = props => {
 	const TITLE: string | null = activeItem === 2 ? 'title' : null;
 
 	const fakeArr = [...new Array(6)];
+	const url: string = 'https://67bc771bed4861e07b3aa6b3.mockapi.io/items?';
 
 	React.useEffect(() => {
 		setIsLoading(true);
-		fetch(
-			categoryId === 0
-				? `https://67bc771bed4861e07b3aa6b3.mockapi.io/items?&sortBy=${
-						RATING || PRICE || TITLE
-				  }`
-				: `https://67bc771bed4861e07b3aa6b3.mockapi.io/items?category=${categoryId}&sortBy=${
-						RATING || PRICE || TITLE
-				  }`
-		)
-			.then(res => res.json())
-			.then(json => setPizzas(json))
+		axios
+			.get(
+				categoryId === 0
+					? `${url}&sortBy=${RATING || PRICE || TITLE}`
+					: `${url}&category=${categoryId}&sortBy=${RATING || PRICE || TITLE}`
+			)
+			.then(res => setPizzas(res.data))
 			.finally(() => setIsLoading(false));
 	}, [categoryId, activeItem, PRICE, RATING, TITLE]);
 	return (
