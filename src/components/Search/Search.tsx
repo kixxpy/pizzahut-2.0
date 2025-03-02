@@ -5,9 +5,29 @@ import styles from './Search.module.scss';
 const Search: React.FC = () => {
 	const context = React.useContext(SearchContext);
 	const inputRef = React.useRef<HTMLInputElement>(null);
+	const [searchValue, setSearchValue] = React.useState('');
+	const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		setSearchValue(value);
+
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current);
+		}
+
+		timeoutRef.current = setTimeout(() => {
+			if (context) {
+				context.setSearchValue(value);
+			}
+		}, 400);
+	};
 
 	const onClickClear = () => {
 		setSearchValue('');
+		if (context) {
+			context.setSearchValue('');
+		}
 		inputRef.current?.focus();
 	};
 
@@ -15,7 +35,6 @@ const Search: React.FC = () => {
 		console.error('useSearch must be used within a SearchProvider');
 		return null;
 	}
-	const { searchValue, setSearchValue } = context;
 
 	return (
 		<div className={styles['search']}>
@@ -46,7 +65,7 @@ const Search: React.FC = () => {
 			<input
 				ref={inputRef}
 				value={searchValue}
-				onChange={e => setSearchValue(e.target.value)}
+				onChange={onChangeInput}
 				className={styles['input']}
 				type='text'
 				placeholder='Поиск пицц...'
