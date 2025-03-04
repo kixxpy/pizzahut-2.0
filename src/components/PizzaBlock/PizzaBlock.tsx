@@ -13,6 +13,7 @@ const PizzaBlock: React.FC<IPizzaBlockProps> = props => {
 	const [activeType, setActiveType] = React.useState<number>(0);
 	const [activeSize, setActiveSize] = React.useState<number>(0);
 
+	const { items } = useSelector(selectCart);
 	const dispatch = useDispatch();
 	const onClickAddPizza = () => {
 		const item = {
@@ -26,9 +27,9 @@ const PizzaBlock: React.FC<IPizzaBlockProps> = props => {
 		};
 		dispatch(addItem(item));
 	};
-	const { items } = useSelector(selectCart);
 	const cartItem = items.find(obj => obj.id === id);
 	const addedCount = cartItem ? cartItem.count : 0;
+
 	return (
 		<div className='pizza-block-wrapper'>
 			<div className='pizza-block'>

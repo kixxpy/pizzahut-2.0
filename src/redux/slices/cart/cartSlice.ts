@@ -24,23 +24,25 @@ export const cartSlice = createSlice({
 			}
 			state.totalPrice = calcTotalPrice(state.items);
 		},
+		minusItem(state, action: PayloadAction<number>) {
+			const findItem = state.items.find(obj => obj.id === action.payload);
 
-		// Пересчитываем общую стоимость
+			if (findItem) {
+				findItem.count--;
+			}
 
-		// addItem: (state, action: PayloadAction<Item>) => {
-		// 	state.items.push(action.payload);
-		// 	state.totalPrice = state.items.reduce((sum, obj) => obj.price + sum, 0);
-		// },
-
+			state.totalPrice = calcTotalPrice(state.items);
+		},
 		removeItem: (state, action: PayloadAction<Item>) => {
 			state.items = state.items.filter(item => item.id !== action.payload.id);
 		},
 		clearItem: state => {
 			state.items = [];
+			state.totalPrice = 0;
 		},
 	},
 });
 
-export const { addItem, removeItem, clearItem } = cartSlice.actions;
+export const { addItem, removeItem, clearItem, minusItem } = cartSlice.actions;
 
 export default cartSlice.reducer;

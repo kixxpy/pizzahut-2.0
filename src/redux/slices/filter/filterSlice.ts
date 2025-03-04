@@ -1,15 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface FilterState {
-	categoryId: number;
-	activeItem: number;
-}
+import { FilterState } from './filterSlice.props';
 
 const initialState: FilterState = {
 	categoryId: 0,
 	activeItem: 0,
 };
-
 export const filterSlice = createSlice({
 	name: 'filter',
 	initialState,
