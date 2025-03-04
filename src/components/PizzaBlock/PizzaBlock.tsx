@@ -1,15 +1,34 @@
 // import styles from "./PizzaBlock.module.css"
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../../redux/slices/cart/cartSlice';
+import { selectCart } from '../../redux/slices/cart/selectors';
 import { IPizzaBlockProps } from './PizzaBlock.props';
 
 const PizzaBlock: React.FC<IPizzaBlockProps> = props => {
-	const { title, imageUrl, sizes, types, price } = props;
+	const { id, title, imageUrl, sizes, types, price } = props;
 
 	const typeNames: string[] = ['тонкое', 'традиционное'];
 
 	const [activeType, setActiveType] = React.useState<number>(0);
 	const [activeSize, setActiveSize] = React.useState<number>(0);
 
+	const dispatch = useDispatch();
+	const onClickAddPizza = () => {
+		const item = {
+			id,
+			title,
+			imageUrl,
+			price,
+			sizes: sizes[activeSize],
+			types: typeNames[activeType],
+			count: 0,
+		};
+		dispatch(addItem(item));
+	};
+	const { items } = useSelector(selectCart);
+	const cartItem = items.find(obj => obj.id === id);
+	const addedCount = cartItem ? cartItem.count : 0;
 	return (
 		<div className='pizza-block-wrapper'>
 			<div className='pizza-block'>
@@ -45,7 +64,10 @@ const PizzaBlock: React.FC<IPizzaBlockProps> = props => {
 				</div>
 				<div className='pizza-block__bottom'>
 					<div className='pizza-block__price'>от {price} ₽</div>
-					<button className='button button--outline button--add'>
+					<button
+						onClick={onClickAddPizza}
+						className='button button--outline button--add'
+					>
 						<svg
 							width='12'
 							height='12'
@@ -59,7 +81,7 @@ const PizzaBlock: React.FC<IPizzaBlockProps> = props => {
 							/>
 						</svg>
 						<span>Добавить</span>
-						<i>2</i>
+						{addedCount > 0 && <i>{addedCount}</i>}
 					</button>
 				</div>
 			</div>

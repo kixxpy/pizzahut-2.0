@@ -9,7 +9,7 @@ const Search: React.FC = () => {
 	const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
 	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
+		const value: string = e.target.value;
 		setSearchValue(value);
 
 		if (timeoutRef.current) {
@@ -17,24 +17,16 @@ const Search: React.FC = () => {
 		}
 
 		timeoutRef.current = setTimeout(() => {
-			if (context) {
-				context.setSearchValue(value);
-			}
+			context?.setSearchValue(value);
 		}, 400);
 	};
 
 	const onClickClear = () => {
 		setSearchValue('');
-		if (context) {
-			context.setSearchValue('');
-		}
+		context?.setSearchValue('');
+
 		inputRef.current?.focus();
 	};
-
-	if (!context) {
-		console.error('useSearch must be used within a SearchProvider');
-		return null;
-	}
 
 	return (
 		<div className={styles['search']}>

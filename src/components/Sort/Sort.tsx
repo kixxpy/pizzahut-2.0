@@ -1,14 +1,14 @@
 // import styles from "./Sort.module.css"
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveItem } from '../../redux/slices/filterSlice';
+import { setActiveItem } from '../../redux/slices/filter/filterSlice';
 import { RootState } from '../../redux/store';
 import { SortProperty } from './Sort.props';
 
 const Sort: React.FC = () => {
-	const actionItem = useSelector(
-		(state: RootState) => state.filterSlice.activeItem
-	);
+	const sortRef = React.useRef<HTMLDivElement>(null);
+
+	const actionItem = useSelector((state: RootState) => state.filter.activeItem);
 	const dispatch = useDispatch();
 	const sortItems: SortProperty[] = [
 		SortProperty.POPULARITY,
@@ -25,8 +25,23 @@ const Sort: React.FC = () => {
 
 	const selectedItem: SortProperty = sortItems[actionItem];
 
+	React.useEffect(() => {
+		if (open) {
+			const handleClickOutside = (e: MouseEvent) => {
+				if (sortRef.current && !e.composedPath().includes(sortRef.current)) {
+					setOpen(false);
+					console.log('click outside');
+				}
+			};
+
+			window.addEventListener('click', handleClickOutside);
+
+			return () => window.removeEventListener('click', handleClickOutside);
+		}
+	}, [open]);
+
 	return (
-		<div className='sort'>
+		<div ref={sortRef} className='sort'>
 			<div className='sort__label'>
 				<svg
 					width='10'

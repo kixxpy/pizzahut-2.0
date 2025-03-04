@@ -8,7 +8,7 @@ import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import { IPizzaBlockProps } from '../components/PizzaBlock/PizzaBlock.props';
 import Skeleton from '../components/Skeleton/Skeleton';
 import Sort from '../components/Sort/Sort';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId } from '../redux/slices/filter/filterSlice';
 import { RootState } from '../redux/store';
 
 interface IHomeProps {
@@ -17,17 +17,16 @@ interface IHomeProps {
 
 const Home: React.FC<IHomeProps> = props => {
 	const categoryId = useSelector(
-		(state: RootState) => state.filterSlice.categoryId
+		(state: RootState) => state?.filter.categoryId
 	);
 	const activeItem = useSelector(
-		(state: RootState) => state.filterSlice.activeItem
+		(state: RootState) => state?.filter.activeItem
 	);
 	const dispatch = useDispatch();
 
 	const { searchValue } = props;
 	const [pizzas, setPizzas] = React.useState<IPizzaBlockProps[]>([]);
 	const [isLoading, setIsLoading] = React.useState<boolean>(true);
-	// const [activeItem, setActiveItem] = React.useState<number>(0);
 
 	const RATING: string | null = activeItem === 0 ? 'rating' : null;
 	const PRICE: string | null = activeItem === 1 ? 'price' : null;
@@ -67,6 +66,7 @@ const Home: React.FC<IHomeProps> = props => {
 							.map(pizza => (
 								<PizzaBlock
 									key={pizza.id}
+									id={pizza.id}
 									title={pizza.title}
 									imageUrl={pizza.imageUrl}
 									price={pizza.price}

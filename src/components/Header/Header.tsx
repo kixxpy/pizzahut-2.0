@@ -1,10 +1,18 @@
 // import styles from "./Header.module.css"
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Item } from '../../redux/slices/cart/cartSlice.props';
+import { RootState } from '../../redux/store';
 import Search from '../Search/Search';
 
 const Header: React.FC = () => {
+	const { totalPrice, items } = useSelector((state: RootState) => state.cart);
+	const totalCount = items.reduce(
+		(sum: number, item: Item) => sum + item.count,
+		0
+	);
 	return (
 		<div className='header'>
 			<div className='container'>
@@ -20,7 +28,7 @@ const Header: React.FC = () => {
 				<Search />
 				<div className='header__cart'>
 					<Link to={'/cart'} className='button button--cart'>
-						<span>520 ₽</span>
+						<span>{totalPrice} ₽</span>
 						<div className='button__delimiter'></div>
 						<svg
 							width='18'
@@ -51,7 +59,7 @@ const Header: React.FC = () => {
 								strokeLinejoin='round'
 							/>
 						</svg>
-						<span>3</span>
+						<span>{totalCount}</span>
 					</Link>
 				</div>
 			</div>
