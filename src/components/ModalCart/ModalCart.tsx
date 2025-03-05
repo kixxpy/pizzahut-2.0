@@ -1,10 +1,10 @@
 import styles from './ModalCart.module.scss';
-
-const ModalCart: React.FC<{
+export interface IModalCart {
 	isOpen: boolean;
 	onConfirm: () => void;
 	onCancel: () => void;
-}> = ({ isOpen, onConfirm, onCancel }) => {
+}
+const ModalCart: React.FC<IModalCart> = ({ isOpen, onConfirm, onCancel }) => {
 	if (!isOpen) return null;
 
 	return (

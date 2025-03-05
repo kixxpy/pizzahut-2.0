@@ -33,19 +33,29 @@ const Home: React.FC<IHomeProps> = props => {
 	const TITLE: string | null = activeItem === 2 ? 'title' : null;
 
 	const fakeArr = [...new Array(6)];
-	const url: string = 'https://67bc771bed4861e07b3aa6b3.mockapi.io/items?';
+	const BASEURL: string = 'https://67bc771bed4861e07b3aa6b3.mockapi.io/items?';
+	const fetchPizzas = React.useCallback(async () => {
+		setIsLoading(true);
+		try {
+			const res = await axios.get(
+				categoryId === 0
+					? `${BASEURL}&sortBy=${RATING || PRICE || TITLE}`
+					: `${BASEURL}&category=${categoryId}&sortBy=${
+							RATING || PRICE || TITLE
+					  }`
+			);
+			setPizzas(res.data);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setIsLoading(false);
+		}
+	}, [categoryId, PRICE, RATING, TITLE]);
 
 	React.useEffect(() => {
-		setIsLoading(true);
-		axios
-			.get(
-				categoryId === 0
-					? `${url}&sortBy=${RATING || PRICE || TITLE}`
-					: `${url}&category=${categoryId}&sortBy=${RATING || PRICE || TITLE}`
-			)
-			.then(res => setPizzas(res.data))
-			.finally(() => setIsLoading(false));
-	}, [categoryId, activeItem, PRICE, RATING, TITLE]);
+		fetchPizzas();
+	}, [fetchPizzas]);
+
 	return (
 		<>
 			<div className='content__top'>

@@ -17,18 +17,15 @@ const ProductCart: React.FC = () => {
 	const { totalPrice, items } = useSelector((state: RootState) => state.cart);
 	const dispatch = useDispatch();
 
-	const clearCart = () => {
-		setIsModalOpen(true);
-	};
+	const clearCart = () => setIsModalOpen(true);
 
 	const handleConfirmClear = () => {
 		dispatch(clearItem());
 		setIsModalOpen(false);
 	};
 
-	const handleCancelClear = () => {
-		setIsModalOpen(false);
-	};
+	const handleCancelClear = () => setIsModalOpen(false);
+
 	const totalCount = items.reduce(
 		(sum: number, item: Item) => sum + item.count,
 		0
