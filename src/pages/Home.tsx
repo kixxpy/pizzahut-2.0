@@ -1,15 +1,14 @@
 // import styles from "./Home.module.css"
 
-import axios from 'axios';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Categories from '../components/Categogies/Categories';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
-import { IPizzaBlockProps } from '../components/PizzaBlock/PizzaBlock.props';
 import Skeleton from '../components/Skeleton/Skeleton';
 import Sort from '../components/Sort/Sort';
 import { setCategoryId } from '../redux/slices/filter/filterSlice';
-import { RootState } from '../redux/store';
+import { fetchPizzas } from '../redux/slices/pizza/pizzaSlice';
+import { RootState, useAppDispatch } from '../redux/store';
 
 interface IHomeProps {
 	searchValue: string;
@@ -19,42 +18,35 @@ const Home: React.FC<IHomeProps> = props => {
 	const categoryId = useSelector(
 		(state: RootState) => state?.filter.categoryId
 	);
+	const status = useSelector((state: RootState) => state.pizza.status);
 	const activeItem = useSelector(
 		(state: RootState) => state?.filter.activeItem
 	);
-	const dispatch = useDispatch();
+	const pizzas = useSelector((state: RootState) => state.pizza.items);
+	const dispatch = useAppDispatch();
 
 	const { searchValue } = props;
-	const [pizzas, setPizzas] = React.useState<IPizzaBlockProps[]>([]);
-	const [isLoading, setIsLoading] = React.useState<boolean>(true);
-
-	const RATING: string | null = activeItem === 0 ? 'rating' : null;
-	const PRICE: string | null = activeItem === 1 ? 'price' : null;
-	const TITLE: string | null = activeItem === 2 ? 'title' : null;
-
 	const fakeArr = [...new Array(6)];
 	const BASEURL: string = 'https://67bc771bed4861e07b3aa6b3.mockapi.io/items?';
-	const fetchPizzas = React.useCallback(async () => {
-		setIsLoading(true);
+	const sortBy =
+		activeItem === 0 ? 'rating' : activeItem === 1 ? 'price' : 'title';
+	const getPizzas = React.useCallback(async () => {
 		try {
-			const res = await axios.get(
-				categoryId === 0
-					? `${BASEURL}&sortBy=${RATING || PRICE || TITLE}`
-					: `${BASEURL}&category=${categoryId}&sortBy=${
-							RATING || PRICE || TITLE
-					  }`
+			dispatch(
+				fetchPizzas({
+					BASEURL,
+					categoryId,
+					sortBy,
+				})
 			);
-			setPizzas(res.data);
 		} catch (error) {
 			console.log(error);
-		} finally {
-			setIsLoading(false);
 		}
-	}, [categoryId, PRICE, RATING, TITLE]);
+	}, [categoryId, sortBy, dispatch]);
 
 	React.useEffect(() => {
-		fetchPizzas();
-	}, [fetchPizzas]);
+		getPizzas();
+	}, [getPizzas]);
 
 	return (
 		<>
@@ -67,7 +59,8 @@ const Home: React.FC<IHomeProps> = props => {
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
 			<div className='content__items'>
-				{isLoading
+				{status === 'failed' && <h1>Произошла ошибка</h1>}
+				{status === 'loading'
 					? fakeArr.map((_, index) => <Skeleton key={index} />)
 					: pizzas
 							.filter(pizza =>
@@ -76,7 +69,7 @@ const Home: React.FC<IHomeProps> = props => {
 							.map(pizza => (
 								<PizzaBlock
 									key={pizza.id}
-									id={pizza.id}
+									id={Number(pizza.id)}
 									title={pizza.title}
 									imageUrl={pizza.imageUrl}
 									price={pizza.price}
