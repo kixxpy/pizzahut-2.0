@@ -4,6 +4,7 @@ import { FilterState } from './filterSlice.props';
 const initialState: FilterState = {
 	categoryId: 0,
 	activeItem: 0,
+	searchValue: '',
 };
 export const filterSlice = createSlice({
 	name: 'filter',
@@ -15,9 +16,13 @@ export const filterSlice = createSlice({
 		setActiveItem: (state: FilterState, action: PayloadAction<number>) => {
 			state.activeItem = action.payload;
 		},
+		setSearchValue: (state: FilterState, action: PayloadAction<string>) => {
+			state.searchValue = action.payload;
+		},
 	},
 });
 
-export const { setCategoryId, setActiveItem } = filterSlice.actions;
+export const { setCategoryId, setActiveItem, setSearchValue } =
+	filterSlice.actions;
 
 export default filterSlice.reducer;

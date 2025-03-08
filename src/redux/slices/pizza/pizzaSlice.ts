@@ -4,7 +4,8 @@ import { FetchPizzasProps, Pizza, Status } from './pizzaSlice.props';
 
 export const fetchPizzas = createAsyncThunk<Pizza[], FetchPizzasProps>(
 	'pizza/fetchPizzasStatus',
-	async ({ BASEURL, categoryId, sortBy }) => {
+	async ({ BASEURL, categoryId, sortBy }, thunkAPI) => {
+		console.log(thunkAPI);
 		const { data } = await axios.get<Pizza[]>(
 			categoryId === 0
 				? `${BASEURL}&sortBy=${sortBy}`

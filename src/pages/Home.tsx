@@ -3,6 +3,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Categories from '../components/Categogies/Categories';
+import ErrorBlock from '../components/ErrorBlock/ErrorBlock';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Skeleton from '../components/Skeleton/Skeleton';
 import Sort from '../components/Sort/Sort';
@@ -15,6 +16,8 @@ interface IHomeProps {
 }
 
 const Home: React.FC<IHomeProps> = props => {
+	const { searchValue } = props;
+
 	const categoryId = useSelector(
 		(state: RootState) => state?.filter.categoryId
 	);
@@ -25,7 +28,6 @@ const Home: React.FC<IHomeProps> = props => {
 	const pizzas = useSelector((state: RootState) => state.pizza.items);
 	const dispatch = useAppDispatch();
 
-	const { searchValue } = props;
 	const fakeArr = [...new Array(6)];
 	const BASEURL: string = 'https://67bc771bed4861e07b3aa6b3.mockapi.io/items?';
 	const sortBy =
@@ -58,8 +60,8 @@ const Home: React.FC<IHomeProps> = props => {
 				<Sort />
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
+			{status === 'failed' && <ErrorBlock />}
 			<div className='content__items'>
-				{status === 'failed' && <h1>Произошла ошибка</h1>}
 				{status === 'loading'
 					? fakeArr.map((_, index) => <Skeleton key={index} />)
 					: pizzas

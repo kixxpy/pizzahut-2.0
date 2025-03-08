@@ -5,6 +5,7 @@ import {
 	addItem,
 	clearItem,
 	minusItem,
+	removeItem,
 } from '../../redux/slices/cart/cartSlice';
 import { Item } from '../../redux/slices/cart/cartSlice.props';
 import { RootState } from '../../redux/store';
@@ -97,7 +98,10 @@ const ProductCart: React.FC = () => {
 						<div className={styles['price']}>
 							<p>{item.price * item.count} ₽</p>
 						</div>
-						<div className={styles['delete']}>
+						<div
+							onClick={() => dispatch(removeItem(item))}
+							className={styles['delete']}
+						>
 							<button>
 								<svg
 									width='10'

@@ -1,29 +1,30 @@
 import React from 'react';
-import { SearchContext } from '../../App';
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../../redux/slices/filter/filterSlice';
 import styles from './Search.module.scss';
 
 const Search: React.FC = () => {
-	const context = React.useContext(SearchContext);
 	const inputRef = React.useRef<HTMLInputElement>(null);
-	const [searchValue, setSearchValue] = React.useState('');
+	const [valueSearch, setValueSearch] = React.useState('');
 	const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+	const dispatch = useDispatch();
 
 	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value: string = e.target.value;
-		setSearchValue(value);
+		setValueSearch(value);
 
 		if (timeoutRef.current) {
 			clearTimeout(timeoutRef.current);
 		}
 
 		timeoutRef.current = setTimeout(() => {
-			context?.setSearchValue(value);
+			dispatch(setSearchValue(value));
 		}, 400);
 	};
 
 	const onClickClear = () => {
-		setSearchValue('');
-		context?.setSearchValue('');
+		dispatch(setSearchValue(''));
+		setValueSearch('');
 
 		inputRef.current?.focus();
 	};
@@ -56,13 +57,13 @@ const Search: React.FC = () => {
 			</svg>
 			<input
 				ref={inputRef}
-				value={searchValue}
+				value={valueSearch}
 				onChange={onChangeInput}
 				className={styles['input']}
 				type='text'
 				placeholder='Поиск пицц...'
 			/>
-			{searchValue && (
+			{valueSearch && (
 				<button onClick={onClickClear}>
 					<svg
 						width='30px'
