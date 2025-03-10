@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Item } from '../../redux/slices/cart/cartSlice.props';
 import { RootState } from '../../redux/store';
+import Logo from '../Logo/Logo';
 import Search from '../Search/Search';
 
 const Header: React.FC = () => {
@@ -16,15 +17,7 @@ const Header: React.FC = () => {
 	return (
 		<div className='header'>
 			<div className='container'>
-				<Link to={'/'}>
-					<div className='header__logo'>
-						<img width='38' src='img/pizza-logo.svg' alt='Логотип пицца хат' />
-						<div>
-							<h1>Pizza Hut</h1>
-							<p>самая вкусная пицца во вселенной</p>
-						</div>
-					</div>
-				</Link>
+				<Logo />
 				<Search />
 				<div className='header__cart'>
 					<Link to={'/cart'} className='button button--cart'>
