@@ -10,16 +10,20 @@ const Search: React.FC = () => {
 	const dispatch = useDispatch();
 
 	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value: string = e.target.value;
+		const value: string = e.target.value.trimStart();
 		setValueSearch(value);
 
 		if (timeoutRef.current) {
 			clearTimeout(timeoutRef.current);
 		}
 
-		timeoutRef.current = setTimeout(() => {
-			dispatch(setSearchValue(value));
-		}, 400);
+		if (value) {
+			timeoutRef.current = setTimeout(() => {
+				dispatch(setSearchValue(value));
+			}, 400);
+		} else {
+			dispatch(setSearchValue(''));
+		}
 	};
 
 	const onClickClear = () => {
