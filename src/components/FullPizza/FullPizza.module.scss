@@ -1,0 +1,22 @@
+.wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	.img {
+		img {
+			width: 300px;
+			height: 300px;
+		}
+	}
+	.text {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		h2 {
+			font-size: 35px;
+		}
+		h4 {
+			font-size: 28px;
+		}
+	}
+}

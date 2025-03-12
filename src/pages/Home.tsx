@@ -71,7 +71,7 @@ const Home: React.FC<IHomeProps> = props => {
 							.map(pizza => (
 								<PizzaBlock
 									key={pizza.id}
-									id={Number(pizza.id)}
+									id={pizza.id}
 									title={pizza.title}
 									imageUrl={pizza.imageUrl}
 									price={pizza.price}

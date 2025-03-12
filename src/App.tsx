@@ -1,11 +1,12 @@
+import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router';
+import FullPizza from './components/FullPizza/FullPizza';
 import Header from './components/Header/Header';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
-import './scss/app.scss';
 import { RootState } from './redux/store';
-import { useSelector } from 'react-redux';
+import './scss/app.scss';
 
 function App() {
 	const { searchValue } = useSelector((state: RootState) => state.filter);
@@ -19,6 +20,7 @@ function App() {
 						<Routes>
 							<Route path='/' element={<Home searchValue={searchValue} />} />
 							<Route path='/cart' element={<Cart />} />
+							<Route path='/pizza/:id' element={<FullPizza />} />
 							<Route path='*' element={<NotFound />} />
 						</Routes>
 					</div>

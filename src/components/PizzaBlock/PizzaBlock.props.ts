@@ -1,5 +1,5 @@
 export interface IPizzaBlockProps {
-	id: number;
+	id: string;
 	title: string;
 	imageUrl: string;
 	sizes: number[];
