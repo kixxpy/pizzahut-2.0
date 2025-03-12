@@ -24,7 +24,9 @@ const ProductCart: React.FC = () => {
 		dispatch(clearItem());
 		setIsModalOpen(false);
 	};
-
+	const minusItemСart = (id: string) => {
+		dispatch(minusItem(id));
+	};
 	const handleCancelClear = () => setIsModalOpen(false);
 
 	const totalCount = items.reduce(
@@ -61,7 +63,11 @@ const ProductCart: React.FC = () => {
 							</div>
 						</div>
 						<div className={styles['itemCount']}>
-							<button onClick={() => dispatch(minusItem(item.id))}>
+							<button
+								className={styles['minus']}
+								disabled={item.count === 1}
+								onClick={() => minusItemСart(item.id)}
+							>
 								<svg
 									width='10'
 									height='10'
