@@ -9,11 +9,20 @@ import Logo from '../Logo/Logo';
 import Search from '../Search/Search';
 
 const Header: React.FC = () => {
+	const isMounted = React.useRef(false);
 	const { totalPrice, items } = useSelector((state: RootState) => state.cart);
 	const totalCount = items.reduce(
 		(sum: number, item: Item) => sum + item.count,
 		0
 	);
+	React.useEffect(() => {
+		if (isMounted.current) {
+			const json = JSON.stringify(items);
+			localStorage.setItem('cart', json);
+			console.log(json);
+		}
+		isMounted.current = true;
+	}, [items]);
 	return (
 		<div className='header'>
 			<div className='container'>

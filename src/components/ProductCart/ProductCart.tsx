@@ -59,7 +59,9 @@ const ProductCart: React.FC = () => {
 							<img src={item.imageUrl} alt='Изображенеие пиццы' />
 							<div className={styles['itemText']}>
 								<h3>{item.title}</h3>
-								<p>{item.types} тесто, 26 см</p>
+								<p>
+									{item.types} тесто, {item.sizes} см
+								</p>
 							</div>
 						</div>
 						<div className={styles['itemCount']}>
